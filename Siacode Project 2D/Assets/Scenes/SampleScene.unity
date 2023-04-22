@@ -244,6 +244,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 50
+  rateOfFire: 240
+  projectile: {fileID: 2155020259813346259, guid: 6e885496a0c9f294f9c8dcc33807d5cb, type: 3}
+  _transition: {x: 0, y: 0}
+  lastZMovingAngle: 0
+  projectileSpawnDistance: 0
 --- !u!58 &483751373
 CircleCollider2D:
   m_ObjectHideFlags: 0
