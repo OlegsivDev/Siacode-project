@@ -13,9 +13,10 @@ public class CharacterController : MonoBehaviour
     public float rateOfFire;
     private bool _isShooting;
     public GameObject projectile;
-    public Vector2 _transition;
+    public Vector2 _direction;
     public float lastZMovingAngle;
     public float projectileSpawnDistance;
+    public Animator animator;
 
     // Start is called before the first frame update
     // Update is called once per frame
@@ -41,10 +42,10 @@ public class CharacterController : MonoBehaviour
         
         if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
         {
-            _transition.x = Input.GetAxis("Horizontal");
-            _transition.y = Input.GetAxis("Vertical");
-            rb.velocity = (_transition * speed * Time.fixedDeltaTime);
-            lastZMovingAngle = Mathf.Atan2(_transition.x, -1 * Input.GetAxis("Vertical")) * Mathf.Rad2Deg;
+            _direction.x = Input.GetAxis("Horizontal");
+            _direction.y = Input.GetAxis("Vertical");
+            rb.velocity = (_direction * speed * Time.fixedDeltaTime);
+            lastZMovingAngle = Mathf.Atan2(_direction.x, -1 * Input.GetAxis("Vertical")) * Mathf.Rad2Deg;
         }
         else
         {
@@ -63,7 +64,7 @@ public class CharacterController : MonoBehaviour
     IEnumerator Shooting()
     {
         _isShooting = true;
-        Instantiate(projectile, transform.position + new Vector3(_transition.x, _transition.y, 0).normalized * projectileSpawnDistance, Quaternion.Euler(0,0, lastZMovingAngle));
+        Instantiate(projectile, transform.position + new Vector3(_direction.x, _direction.y, 0).normalized * projectileSpawnDistance, Quaternion.Euler(0,0, lastZMovingAngle));
         yield return new WaitForSeconds(60 / rateOfFire);
         _isShooting = false;
     }

@@ -136,6 +136,7 @@ GameObject:
   - component: {fileID: 483751372}
   - component: {fileID: 483751371}
   - component: {fileID: 483751373}
+  - component: {fileID: 483751374}
   m_Layer: 7
   m_Name: Girl
   m_TagString: Untagged
@@ -246,9 +247,10 @@ MonoBehaviour:
   speed: 50
   rateOfFire: 240
   projectile: {fileID: 2155020259813346259, guid: 6e885496a0c9f294f9c8dcc33807d5cb, type: 3}
-  _transition: {x: 0, y: 0}
+  _direction: {x: 0, y: 0}
   lastZMovingAngle: 0
   projectileSpawnDistance: 0.2
+  animator: {fileID: 0}
 --- !u!58 &483751373
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -265,6 +267,26 @@ CircleCollider2D:
   m_Offset: {x: 0, y: -0.08}
   serializedVersion: 2
   m_Radius: 0.06
+--- !u!95 &483751374
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 483751368}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b31cff17af61b684e816827b02ea3206, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!1 &502768492
 GameObject:
   m_ObjectHideFlags: 0
