@@ -39,6 +39,8 @@ public class CharacterController : MonoBehaviour
     {
         Move();
         Shoot();
+        // TODO: FIX ENTER IN MAIN MENU
+        // CheckExitToMenu();
     }
 
     private void Move()
