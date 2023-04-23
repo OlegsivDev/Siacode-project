@@ -33,6 +33,7 @@ public class Enemy : MonoBehaviour
         if (col.gameObject.tag.Equals("Projectile"))
         {
             getHit();
+            Destroy(col.gameObject);
         }
     }
 }
