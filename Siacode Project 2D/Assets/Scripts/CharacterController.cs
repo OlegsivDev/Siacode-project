@@ -58,7 +58,7 @@ public class CharacterController : MonoBehaviour
 
     private void Shoot()
     {
-        if (Input.GetKey(KeyCode.Space) && !_isShooting)
+        if ((Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.Mouse0)) && !_isShooting)
         {
             StartCoroutine(Shooting());
         }
