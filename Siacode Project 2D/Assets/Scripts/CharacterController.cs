@@ -9,20 +9,23 @@ using Object = System.Object;
 public class CharacterController : MonoBehaviour
 {
     public float speed;
-    private Rigidbody2D rb;
+    private Rigidbody2D _rb;
     public float rateOfFire;
     private bool _isShooting;
     public GameObject projectile;
-    public Vector2 _direction;
+    private Vector2 _direction;
     public float lastZMovingAngle;
     public float projectileSpawnDistance;
     public Animator animator;
+    public Camera camera;
+    private Vector3 _toMouseVector;
+    private float _toMouseZRotation;
 
     // Start is called before the first frame update
     // Update is called once per frame
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
+        _rb = GetComponent<Rigidbody2D>();
         _isShooting = false;
     }
 
@@ -34,7 +37,7 @@ public class CharacterController : MonoBehaviour
     private void FixedUpdate()
     {
         Move();
-        shoot();
+        Shoot();
     }
 
     private void Move()
@@ -44,16 +47,16 @@ public class CharacterController : MonoBehaviour
         {
             _direction.x = Input.GetAxis("Horizontal");
             _direction.y = Input.GetAxis("Vertical");
-            rb.velocity = (_direction * speed * Time.fixedDeltaTime);
-            lastZMovingAngle = Mathf.Atan2(_direction.x, -1 * Input.GetAxis("Vertical")) * Mathf.Rad2Deg;
+            _rb.velocity = (_direction * speed * Time.fixedDeltaTime);
+            lastZMovingAngle = Mathf.Atan2(_direction.x, -1 * _direction.y) * Mathf.Rad2Deg;
         }
         else
         {
-            rb.velocity = Vector2.zero;
+            _rb.velocity = Vector2.zero;
         }
     }
 
-    private void shoot()
+    private void Shoot()
     {
         if (Input.GetKey(KeyCode.Space) && !_isShooting)
         {
@@ -61,11 +64,25 @@ public class CharacterController : MonoBehaviour
         }
     }
 
-    IEnumerator Shooting()
+    private IEnumerator Shooting()
     {
         _isShooting = true;
-        Instantiate(projectile, transform.position + new Vector3(_direction.x, _direction.y, 0).normalized * projectileSpawnDistance, Quaternion.Euler(0,0, lastZMovingAngle));
+        
+        // Uncomment to make shooting in moving direction 
+        // Instantiate(projectile, transform.position + new Vector3(_direction.x, _direction.y, 0).normalized * projectileSpawnDistance, Quaternion.Euler(0,0, lastZMovingAngle));
+        
+        // Shooting to mouse direction
+        GetMouseWorldPosition();
+        Instantiate(projectile, transform.position + _toMouseVector.normalized * projectileSpawnDistance, Quaternion.Euler(0,0, _toMouseZRotation));
         yield return new WaitForSeconds(60 / rateOfFire);
         _isShooting = false;
+    }
+
+    private void GetMouseWorldPosition()
+    {
+        Vector3 worldMousePosition = camera.ScreenToWorldPoint(Input.mousePosition);
+        _toMouseVector = worldMousePosition - transform.position;
+        _toMouseVector.z = 0;
+        _toMouseZRotation = Mathf.Atan2(_toMouseVector.x, -1 * _toMouseVector.y) * Mathf.Rad2Deg;
     }
 }
