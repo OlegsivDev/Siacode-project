@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Object = System.Object;
 
@@ -84,5 +85,13 @@ public class CharacterController : MonoBehaviour
         _toMouseVector = worldMousePosition - transform.position;
         _toMouseVector.z = 0;
         _toMouseZRotation = Mathf.Atan2(_toMouseVector.x, -1 * _toMouseVector.y) * Mathf.Rad2Deg;
+    }
+
+    private void CheckExitToMenu()
+    {
+        if (Input.GetKey(KeyCode.Escape))
+        {
+            SceneManager.LoadScene("MainMenu");
+        };
     }
 }
