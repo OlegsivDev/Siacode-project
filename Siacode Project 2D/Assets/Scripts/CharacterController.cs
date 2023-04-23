@@ -32,7 +32,8 @@ public class CharacterController : MonoBehaviour
 
     void Update()
     {
-        
+
+       
     }
 
     private void FixedUpdate()
@@ -45,18 +46,26 @@ public class CharacterController : MonoBehaviour
 
     private void Move()
     {
+
         
         if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
         {
-            _direction.x = Input.GetAxis("Horizontal");
-            _direction.y = Input.GetAxis("Vertical");
+            _direction.x = Input.GetAxisRaw("Horizontal");
+            _direction.y = Input.GetAxisRaw("Vertical");
             _rb.velocity = (_direction * speed * Time.fixedDeltaTime);
             lastZMovingAngle = Mathf.Atan2(_direction.x, -1 * _direction.y) * Mathf.Rad2Deg;
+
+            animator.SetFloat("Horizontal", _direction.x);
+            animator.SetFloat("Vertical", _direction.y);
+            animator.SetFloat("Speed", _direction.sqrMagnitude);
+
         }
         else
         {
             _rb.velocity = Vector2.zero;
         }
+
+
     }
 
     private void Shoot()
