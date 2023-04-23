@@ -250,7 +250,7 @@ MonoBehaviour:
   lastZMovingAngle: 0
   projectileSpawnDistance: 0.2
   animator: {fileID: 0}
-  camera: {fileID: 519420031}
+  mainCamera: {fileID: 519420031}
 --- !u!58 &483751373
 CircleCollider2D:
   m_ObjectHideFlags: 0

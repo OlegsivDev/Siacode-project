@@ -18,7 +18,7 @@ public class CharacterController : MonoBehaviour
     public float lastZMovingAngle;
     public float projectileSpawnDistance;
     public Animator animator;
-    public Camera camera;
+    public Camera mainCamera;
     private Vector3 _toMouseVector;
     private float _toMouseZRotation;
 
@@ -81,7 +81,7 @@ public class CharacterController : MonoBehaviour
 
     private void GetMouseWorldPosition()
     {
-        Vector3 worldMousePosition = camera.ScreenToWorldPoint(Input.mousePosition);
+        Vector3 worldMousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         _toMouseVector = worldMousePosition - transform.position;
         _toMouseVector.z = 0;
         _toMouseZRotation = Mathf.Atan2(_toMouseVector.x, -1 * _toMouseVector.y) * Mathf.Rad2Deg;
