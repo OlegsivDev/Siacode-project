@@ -21,6 +21,8 @@ public class CharacterController : MonoBehaviour
     public Camera mainCamera;
     private Vector3 _toMouseVector;
     private float _toMouseZRotation;
+    public GameObject bow;
+    private Vector3 _bowPosition;
 
     // Start is called before the first frame update
     // Update is called once per frame
@@ -28,6 +30,7 @@ public class CharacterController : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody2D>();
         _isShooting = false;
+        _bowPosition = bow.transform.position;
     }
 
     void Update()
@@ -73,6 +76,23 @@ public class CharacterController : MonoBehaviour
         if ((Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.Mouse0)) && !_isShooting)
         {
             StartCoroutine(Shooting());
+            //if (_toMouseZRotation > 0)
+            //{
+            //    bow.transform.rotation = Quaternion.Euler(0, 0, 90);
+            //    Vector3 newPosition = _bowPosition;
+            //    _bowPosition.x = 0.1f;
+            //    bow.transform.position = _bowPosition;
+            //} else
+            //{
+            //    bow.transform.rotation = Quaternion.Euler(0, 0, -90);
+            //    Vector3 newPosition = _bowPosition;
+            //    _bowPosition.x = -0.1f;
+            //    bow.transform.position = _bowPosition;
+            //}
+            //bow.gameObject.SetActive(true);
+        } else
+        {
+            //bow.gameObject.SetActive(false);
         }
     }
 
