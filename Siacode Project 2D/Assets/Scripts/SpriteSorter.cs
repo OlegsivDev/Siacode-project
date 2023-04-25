@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class SpriteSorter : MonoBehaviour
 {
+    
     private int sortingOrderBase = 0;
     private Renderer renderer;
-    private float offset = -0.4f;
+    public float offset = 0;
     public bool isStatic = false;
     void Start()
     {
-        
+
     }
     private void Awake()
     {
@@ -24,6 +25,7 @@ public class SpriteSorter : MonoBehaviour
         renderer.sortingOrder = (int)(sortingOrderBase - transform.position.y + offset);
 
         if (isStatic)
-                Destroy(this);
+            Destroy(this);
     }
 }
+
