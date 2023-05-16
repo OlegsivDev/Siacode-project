@@ -28,6 +28,7 @@ public class CharacterController : MonoBehaviour
     public ObjectPool<GameObject> Pool;
     public int builtInPoolingCapacity;
     public int builtInPoolingMaxCapacity;
+    public AudioSource runningSound;
         
     // Start is called before the first frame update
     // Update is called once per frame
@@ -69,7 +70,7 @@ public class CharacterController : MonoBehaviour
         Move();
         Shoot();
         // TODO: FIX ENTER IN MAIN MENU
-        // CheckExitToMenu();
+        CheckExitToMenu();
     }
 
     private void Move()
@@ -87,10 +88,18 @@ public class CharacterController : MonoBehaviour
             animator.SetFloat("Vertical", _direction.y);
             animator.SetFloat("Speed", _direction.sqrMagnitude);
 
+            if (!runningSound.isPlaying)
+            {
+                runningSound.Play();
+            }
         }
         else
         {
             _rb.velocity = Vector2.zero;
+            if (runningSound.isPlaying)
+            {
+                runningSound.Stop();
+            }
         }
 
 
