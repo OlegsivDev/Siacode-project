@@ -10,11 +10,14 @@ public class Projectile : MonoBehaviour
     public bool useBuiltInObjectPooling;
     public ObjectPool<GameObject> Pool;
     public float speed;
+    public AudioSource impactSound;
+    private bool _impacted;
 
     public GameObject girl;
     // Start is called before the first frame update
     void Start()
     {
+        _impacted = false;
         girl = GameObject.Find("Girl");
         Pool = girl.GetComponent<CharacterController>().Pool;
         useBuiltInObjectPooling = girl.GetComponent<CharacterController>().useBuiltInObjectPooling;
@@ -45,8 +48,19 @@ public class Projectile : MonoBehaviour
         }
     }
 
+    private void OnCollisionEnter2D(Collision2D col)
+    {
+        impactSound.Play();
+        _impacted = true;
+        Invoke("DestroyObject", 0.5f);
+    }
+
     private void FixedUpdate()
     {
-        transform.position -= transform.up * speed * Time.deltaTime;
+        if (!_impacted)
+        {
+            var arrowTransform = transform;
+            arrowTransform.position -= arrowTransform.up * speed * Time.deltaTime;
+        }
     }
 }
