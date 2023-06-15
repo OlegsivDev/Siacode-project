@@ -30,7 +30,8 @@ public class CharacterController : MonoBehaviour
     public int builtInPoolingCapacity;
     public int builtInPoolingMaxCapacity;
     public AudioSource runningSound;
-    private PlayerInput playerInput;
+    public AudioSource bowShootSound;
+    public PlayerInput playerInput;
     private PlayerInputActions _playerInputActions;
     private Coroutine _shootingCoroutine;
 
@@ -138,6 +139,8 @@ public class CharacterController : MonoBehaviour
                 {
                     Instantiate(projectile, transform.position + _toMouseVector.normalized * projectileSpawnDistance, Quaternion.Euler(0,0, _toMouseZRotation));
                 }
+
+                bowShootSound.Play();
                 yield return new WaitForSeconds(60 / rateOfFire);
             }
         }
