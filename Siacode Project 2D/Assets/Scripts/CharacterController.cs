@@ -3,12 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
+using UnityEngine.Pool;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Object = System.Object;
 
 public class CharacterController : MonoBehaviour
 {
+    public bool useBuiltInObjectPooling;
     public float speed;
     private Rigidbody2D _rb;
     public float rateOfFire;
@@ -23,7 +25,11 @@ public class CharacterController : MonoBehaviour
     private float _toMouseZRotation;
     public GameObject bow;
     private Vector3 _bowPosition;
-
+    public ObjectPool<GameObject> Pool;
+    public int builtInPoolingCapacity;
+    public int builtInPoolingMaxCapacity;
+    public AudioSource runningSound;
+        
     // Start is called before the first frame update
     // Update is called once per frame
     void Start()
@@ -31,6 +37,26 @@ public class CharacterController : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
         _isShooting = false;
         _bowPosition = bow.transform.position;
+
+        if (useBuiltInObjectPooling)
+        {
+            Pool = new ObjectPool<GameObject>(() =>
+            {
+                return Instantiate(projectile, transform.position + _toMouseVector.normalized * projectileSpawnDistance, Quaternion.Euler(0,0, _toMouseZRotation));
+            }, obj =>
+            {
+                GetMouseWorldPosition();
+                obj.transform.position = transform.position + _toMouseVector.normalized * projectileSpawnDistance;
+                obj.transform.rotation = Quaternion.Euler(0, 0, _toMouseZRotation);
+                obj.gameObject.SetActive(true);
+            }, obj =>
+            {
+                obj.gameObject.SetActive(false);
+            }, obj =>
+            {
+                Destroy(obj.gameObject);
+            }, false, builtInPoolingCapacity, builtInPoolingMaxCapacity);
+        }
     }
 
     void Update()
@@ -44,7 +70,7 @@ public class CharacterController : MonoBehaviour
         Move();
         Shoot();
         // TODO: FIX ENTER IN MAIN MENU
-        // CheckExitToMenu();
+        CheckExitToMenu();
     }
 
     private void Move()
@@ -62,10 +88,18 @@ public class CharacterController : MonoBehaviour
             animator.SetFloat("Vertical", _direction.y);
             animator.SetFloat("Speed", _direction.sqrMagnitude);
 
+            if (!runningSound.isPlaying)
+            {
+                runningSound.Play();
+            }
         }
         else
         {
             _rb.velocity = Vector2.zero;
+            if (runningSound.isPlaying)
+            {
+                runningSound.Stop();
+            }
         }
 
 
@@ -105,7 +139,14 @@ public class CharacterController : MonoBehaviour
         
         // Shooting to mouse direction
         GetMouseWorldPosition();
-        Instantiate(projectile, transform.position + _toMouseVector.normalized * projectileSpawnDistance, Quaternion.Euler(0,0, _toMouseZRotation));
+        if (useBuiltInObjectPooling)
+        {
+            Pool.Get();
+        }
+        else
+        {
+            Instantiate(projectile, transform.position + _toMouseVector.normalized * projectileSpawnDistance, Quaternion.Euler(0,0, _toMouseZRotation));
+        }
         yield return new WaitForSeconds(60 / rateOfFire);
         _isShooting = false;
     }

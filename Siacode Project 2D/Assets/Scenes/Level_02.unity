@@ -873,7 +873,7 @@ PrefabInstance:
     - target: {fileID: 5584478607980202491, guid: 95e34f5c909e8f149b1c23f57adb0b93,
         type: 3}
       propertyPath: m_Name
-      value: Girl (1)
+      value: Girl
       objectReference: {fileID: 0}
     - target: {fileID: 5584478607980202495, guid: 95e34f5c909e8f149b1c23f57adb0b93,
         type: 3}
@@ -2962,7 +2962,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0.0627451, g: 0.0627451, b: 0.06666667, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
