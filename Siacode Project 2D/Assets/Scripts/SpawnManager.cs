@@ -7,11 +7,15 @@ using Random = UnityEngine.Random;
 public class SpawnManager : MonoBehaviour
 {
     public GameObject enemy;
+    public bool enableEnemySpawning;
     
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(spawnEnemy());
+        if (enableEnemySpawning)
+        {
+            StartCoroutine(spawnEnemy());
+        }
     }
 
     // Update is called once per frame
