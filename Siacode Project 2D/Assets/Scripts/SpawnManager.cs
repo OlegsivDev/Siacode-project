@@ -25,7 +25,7 @@ public class SpawnManager : MonoBehaviour
         while (true)
         {
             Instantiate(enemy, new Vector3(Random.Range(-1, 1), Random.Range(-1, 1), 0), quaternion.Euler(0, 0, 0));
-            yield return new WaitForSeconds(5);
+            yield return new WaitForSeconds(15);
         }
     }
 }
