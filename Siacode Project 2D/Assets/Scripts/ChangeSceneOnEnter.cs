@@ -6,9 +6,11 @@ using UnityEngine.SceneManagement;
 
 public class ChangeSceneOnEnter : MonoBehaviour
 {
+    [SerializeField] private float teleportTimeSeconds;
+    [SerializeField] private TriggerAnimation trigger;
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.CompareTag("TeleportToNextLevel"))
+        if (other.gameObject.CompareTag("Player"))
         {
             StartCoroutine(WaitToTeleport());
         }
@@ -16,7 +18,8 @@ public class ChangeSceneOnEnter : MonoBehaviour
 
     IEnumerator WaitToTeleport()
     {
-        yield return new WaitForSeconds(3);
+        trigger.Trigger();
+        yield return new WaitForSeconds(teleportTimeSeconds);
         SceneManager.LoadScene("Level_02");
     }
 }
