@@ -13,6 +13,10 @@ public class DialogueTrigger : MonoBehaviour
 
     [Header("Ink JSON")] [SerializeField] private TextAsset inkJSON;
 
+    public bool interactableOnce;
+    public bool interactionOnEnter;
+    private bool isLockedVisualCueState;
+
     private bool playerInRange;
 
     // Start is called before the first frame update
@@ -20,6 +24,10 @@ public class DialogueTrigger : MonoBehaviour
     {
         _playerInputActions = new PlayerInputActions();
         _playerInputActions.Enable();
+        if (interactableOnce)
+        {
+            visualCue.SetActive(false);
+        }
     }
 
     // Update is called once per frame
@@ -27,7 +35,11 @@ public class DialogueTrigger : MonoBehaviour
     {
         if (playerInRange && !DialogueManager.GetInstance().dialogueIsPlaying)
         {
-            visualCue.SetActive(true);
+            if (!isLockedVisualCueState)
+            {
+                visualCue.SetActive(true);
+            }
+
             if (_playerInputActions.Player.Interact.triggered)
             {
                 Debug.Log("OK");
@@ -36,7 +48,10 @@ public class DialogueTrigger : MonoBehaviour
         }
         else
         {
-            visualCue.SetActive(false);
+            if (!isLockedVisualCueState)
+            {
+                visualCue.SetActive(false);
+            }
         }
     }
 
@@ -50,6 +65,12 @@ public class DialogueTrigger : MonoBehaviour
     {
         if (col.gameObject.tag == "Player")
         {
+            DialogueManager.GetInstance().DialogueTrigger = this;
+
+            if (interactionOnEnter && !DialogueManager.GetInstance().dialogueIsPlaying)
+            {
+                DialogueManager.GetInstance().EnterDialogueMode(inkJSON);
+            }
             playerInRange = true;
         }
     }
@@ -60,5 +81,10 @@ public class DialogueTrigger : MonoBehaviour
         {
             playerInRange = false;
         }
+    }
+
+    public void disableDialogue()
+    {
+        gameObject.SetActive(false);
     }
 }

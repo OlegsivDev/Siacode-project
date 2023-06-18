@@ -16,6 +16,7 @@ public class DialogueManager : MonoBehaviour
 
     private Story currentStory;
     public bool dialogueIsPlaying { get; private set; }
+    public DialogueTrigger DialogueTrigger;
 
     // Start is called before the first frame update
     void Start()
@@ -70,6 +71,10 @@ public class DialogueManager : MonoBehaviour
 
         dialogueIsPlaying = false;
         dialoguePanel.SetActive(false);
+        if (DialogueTrigger.interactableOnce || DialogueTrigger.interactionOnEnter)
+        {
+            DialogueTrigger.disableDialogue();
+        }
         // dialogueText.text = "null";
     }
 
