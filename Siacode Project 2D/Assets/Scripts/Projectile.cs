@@ -12,6 +12,7 @@ public class Projectile : MonoBehaviour
     public float speed;
     public AudioSource impactSound;
     private bool _impacted;
+    public static event Action OnArrowImpact;
 
     public GameObject girl;
     // Start is called before the first frame update
@@ -50,7 +51,7 @@ public class Projectile : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D col)
     {
-        impactSound.Play();
+        OnArrowImpact.Invoke();
         _impacted = true;
         Invoke("DestroyObject", 0.5f);
     }
