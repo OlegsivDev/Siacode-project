@@ -25452,7 +25452,7 @@ PrefabInstance:
     - target: {fileID: 3870248368476992646, guid: d831713b79c1b994d8577fd710f77f64,
         type: 3}
       propertyPath: m_Name
-      value: NPC Grave (1)
+      value: NPC Runic stone
       objectReference: {fileID: 0}
     - target: {fileID: 3870248368476992647, guid: d831713b79c1b994d8577fd710f77f64,
         type: 3}
@@ -27255,12 +27255,12 @@ PrefabInstance:
     - target: {fileID: 7762850140067378561, guid: ed3e4266fb014ee4497d245caecf96be,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.224
+      value: -1.064
       objectReference: {fileID: 0}
     - target: {fileID: 7762850140067378561, guid: ed3e4266fb014ee4497d245caecf96be,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -4.113
+      value: 0.044
       objectReference: {fileID: 0}
     - target: {fileID: 7762850140067378561, guid: ed3e4266fb014ee4497d245caecf96be,
         type: 3}
