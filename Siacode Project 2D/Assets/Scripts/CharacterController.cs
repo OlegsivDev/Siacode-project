@@ -33,6 +33,9 @@ public class CharacterController : MonoBehaviour
     private PlayerInput _playerInput;
     private PlayerInputActions _playerInputActions;
     private Coroutine _shootingCoroutine;
+    public static event Action OnPlayerStartWalking;
+    public static event Action OnPlayerStopWalking;
+    public static event Action OnPlayerShootBow;
 
     // Start is called before the first frame update
     // Update is called once per frame
@@ -67,6 +70,12 @@ public class CharacterController : MonoBehaviour
         }
     }
 
+    private void OnDestroy()
+    {
+        _playerInputActions.Player.Shoot.performed -= OnShootActionStarted;
+        _playerInputActions.Player.Shoot.canceled -= OnShootActionEnded;
+    }
+
     void Update()
     {
     }
@@ -82,10 +91,7 @@ public class CharacterController : MonoBehaviour
         if (DialogueManager.GetInstance().dialogueIsPlaying)
         {
             _rb.velocity = Vector2.zero;
-            if (runningSound.isPlaying)
-            {
-                runningSound.Stop();
-            }
+            OnPlayerStopWalking.Invoke();
             return;
         }
 
@@ -97,19 +103,13 @@ public class CharacterController : MonoBehaviour
         {
             _rb.velocity = (_direction * speed * Time.fixedDeltaTime);
             lastZMovingAngle = Mathf.Atan2(_direction.x, -1 * _direction.y) * Mathf.Rad2Deg;
-
-            if (!runningSound.isPlaying)
-            {
-                runningSound.Play();
-            }
+            
+            OnPlayerStartWalking.Invoke();
         }
         else
         {
             _rb.velocity = Vector2.zero;
-            if (runningSound.isPlaying)
-            {
-                runningSound.Stop();
-            }
+            OnPlayerStopWalking.Invoke();
         }
     }
 
@@ -145,7 +145,7 @@ public class CharacterController : MonoBehaviour
                         Quaternion.Euler(0, 0, _toMouseZRotation));
                 }
 
-                bowShootSound.Play();
+                OnPlayerShootBow.Invoke();
                 yield return new WaitForSeconds(60 / rateOfFire);
             }
         }
