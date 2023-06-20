@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -25,6 +26,16 @@ public class HealthBar : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        PlayerHealth.OnPlayerTakeDamage += DrawHearts;
+    }
+
+    private void OnDisable()
+    {
+        PlayerHealth.OnPlayerTakeDamage -= DrawHearts;
+    }
+
     public void CreateEmptyHeart()
     {
         GameObject newHeart = Instantiate(heartPrefab);
@@ -45,4 +56,8 @@ public class HealthBar : MonoBehaviour
 
     }
 
+    public void Start()
+    {
+        DrawHearts();
+    }
 }
